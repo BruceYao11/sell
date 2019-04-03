@@ -1,5 +1,8 @@
 package com.example.sell.bean;
 
+import com.example.sell.enums.ProductStatusEnum;
+import com.example.sell.utils.EnumUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -29,23 +32,14 @@ public class ProductInfo {
     private String productIcon;
 
     /*状态，0正常1下架*/
-    private Integer productStatus;
+    private Integer productStatus = ProductStatusEnum.UP.getCode();
 
     /*类目编号*/
     private Integer categoryType;
 
-    public ProductInfo() {
-    }
-
-    public ProductInfo(String productId, String productName, BigDecimal productPrice, Integer productStock, String productDescription, String productIcon, Integer productStatus, Integer categoryType) {
-        this.productId = productId;
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productStock = productStock;
-        this.productDescription = productDescription;
-        this.productIcon = productIcon;
-        this.productStatus = productStatus;
-        this.categoryType = categoryType;
+    @JsonIgnore
+    public ProductStatusEnum getProductStatusEnum(){
+        return EnumUtil.getByCode(productStatus,ProductStatusEnum.class);
     }
 
 }
