@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * @program: sell
- * @description:
+ * @description:生成唯一主键
  * @author: Bruce
  * @create: 2019-03-07 21:34
  **/

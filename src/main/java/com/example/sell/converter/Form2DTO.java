@@ -26,6 +26,9 @@ public class Form2DTO {
 
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setBuyerOpenid(orderForm.getOpenid());
+        orderDTO.setBuyerName(orderForm.getName());
+        orderDTO.setBuyerPhone(orderForm.getPhone());
+        orderDTO.setBuyerAddress(orderForm.getAddress());
 
         List<OrderDetail> orderDetailList = new ArrayList<>();
         try{

@@ -31,6 +31,15 @@ public class OrderDTO {
     /*买家微信openid*/
     private String buyerOpenid;
 
+    /*买家姓名*/
+    private String buyerName;
+
+    /*买家电话*/
+    private String buyerPhone;
+
+    /*买家地址*/
+    private String buyerAddress;
+
     /*订单总金额*/
     private BigDecimal orderAmount;
 

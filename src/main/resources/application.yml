@@ -8,11 +8,31 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost/sell?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    url: jdbc:mysql://localhost/sell?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
   jpa:
     show-sql: true
+
 server:
   servlet:
     context-path: /sell
+
+wechat:
+  mpAppId: wx172c9d51a761a06c
+  mpAppSecret: 36efc12ad8ec9b3b1d19485d663399be
+  openAppId:
+  openAppSecret:
+  mchId:
+  mchKey:
+  keyPath:
+  notifyUrl: http://hisell.natapp1.cc/sell/pay/notify
+  templateId:
+    orderStatus: 6q6O5H74op9_39ZvdKEz6v9gNcxy6ixECoENYQuVYR8
+
+projecturl:
+  wechatMpAuthorize: http://hisell.natapp1.cc
+  wechatOpenAuthorize: http://hisell.natapp1.cc
+  sell: http://hisell.natapp1.cc
+
+

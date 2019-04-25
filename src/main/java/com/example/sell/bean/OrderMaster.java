@@ -2,6 +2,7 @@ package com.example.sell.bean;
 
 import com.example.sell.enums.OrderStatusEnum;
 import com.example.sell.enums.PayStatusEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -27,6 +28,15 @@ public class OrderMaster {
 
     /*买家微信openid*/
     private String buyerOpenid;
+
+    /*买家姓名*/
+    private String buyerName;
+
+    /*买家电话*/
+    private String buyerPhone;
+
+    /*买家地址*/
+    private String buyerAddress;
 
     /*订单总金额*/
     private BigDecimal orderAmount;

@@ -14,6 +14,8 @@ import com.example.sell.enums.ResultEnum;
 import com.example.sell.exception.SellException;
 import com.example.sell.service.OrderService;
 import com.example.sell.service.ProductService;
+import com.example.sell.service.PushMessageService;
+import com.example.sell.service.WebSocket;
 import com.example.sell.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -48,6 +50,17 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderMasterDao orderMasterDao;
 
+    @Autowired
+    private PushMessageService pushMessageService;
+
+    @Autowired
+    private WebSocket webSocket;
+
+    /**
+     * 创建订单
+     * @param orderDTO
+     * @return
+     */
     @Override
     @Transactional
     public OrderDTO create(OrderDTO orderDTO) {
@@ -86,9 +99,18 @@ public class OrderServiceImpl implements OrderService {
                 new CartDTO(e.getProductId(),e.getProductQuantity())).collect(Collectors.toList());
         productService.decreaseStock(cartDTOList);
 
+        //发送websocket消息
+        webSocket.sendMessage(orderDTO.getOrderId());
+
+
         return orderDTO;
     }
 
+    /**
+     * 查询一个订单
+     * @param orderId
+     * @return
+     */
     @Override
     public OrderDTO findOne(String orderId) {
         OrderMaster orderMaster = orderMasterDao.findByOrderId(orderId);
@@ -152,6 +174,11 @@ public class OrderServiceImpl implements OrderService {
         return orderDTO;
     }
 
+    /**
+     * 完结订单
+     * @param orderDTO
+     * @return
+     */
     @Override
     @Transactional
     public OrderDTO finish(OrderDTO orderDTO) {
@@ -169,6 +196,9 @@ public class OrderServiceImpl implements OrderService {
             log.error("[完结订单] 更新失败，orderMaster={}",orderMaster);
             throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
         }
+
+        //推送消息模板
+        pushMessageService.orderStatus(orderDTO);
 
         return orderDTO;
     }

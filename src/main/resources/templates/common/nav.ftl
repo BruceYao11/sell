@@ -26,6 +26,10 @@
         </li>
 
         <li>
+            <a href="/sell/seller/common/total"><i class="fa fa-fw fa-list-alt"></i>销量统计</a>
+        </li>
+
+        <li>
             <a href="/sell/seller/logout"><i class="fa fa-fw fa-list-alt"></i>退出登录</a>
         </li>
     </ul>
