@@ -7,91 +7,39 @@
     <#--边栏-->
     <#include "../common/nav.ftl">
 
-    <#--主要内容-->
-    <div id="page-content-wrapper">
-        <div class="container-fluid">
-            <div class="row clearfix">
-                <div class="col-md-12 column">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>订单id</th>
-                            <th>买家姓名</th>
-                            <th>买家电话</th>
-                            <th>买家地址</th>
-                            <th>金额</th>
-                            <th>订单状态</th>
-                            <th>支付状态</th>
-                            <th>创建时间</th>
-                            <th colspan="2">操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        <#list orderDTOPage.content as orderDTO>
-                            <tr>
-                                <td>${orderDTO.orderId}</td>
-                                <td>${orderDTO.buyerName}</td>
-                                <td>${orderDTO.buyerPhone}</td>
-                                <td>${orderDTO.buyerAddress}</td>
-                                <td>${orderDTO.orderAmount}</td>
-                                <td>${orderDTO.getOrderStatusEnum().msg}</td>
-                                <td>${orderDTO.getPayStatusEnum().msg}</td>
-                                <td>${orderDTO.createTime}</td>
-                                <td>
-                                    <a href = "/sell/seller/order/detail?orderId=${orderDTO.orderId}">详情</a>
-                                </td>
-                                <td>
-                                    <#if orderDTO.getOrderStatusEnum().msg == "新订单">
-                                        <a href = "/sell/seller/order/cancel?orderId=${orderDTO.orderId}">取消</a>
-                                    </#if>
-                                </td>
-                            </tr>
-                        </#list>
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <#--分页-->
-                <div class="col-md-12 column">
-                    <ul class="pagination pull-right">
-                        <#if currentPage lte 1>
-                            <li class = "disabled">
-                                <a href="#">上一页</a>
-                            </li>
-                        <#else>
-                            <li>
-                                <a href="/sell/seller/order/list?page=${currentPage-1}&size=${size}">上一页</a>
-                            </li>
-                        </#if>
-
-                        <#list 1..orderDTOPage.getTotalPages() as index>
-                            <#if currentPage == index>
-                                <li class = "disabled"><a href="#">${index}</a></li>
-                            </#if>
-                            <#if (currentPage < index+3) && (currentPage > index-3) &&(currentPage != index)>
-                                <li>
-                                    <a href="/sell/seller/order/list?page=${index}&size=${size}">${index}</a>
-                                </li>
-                            </#if>
-                        </#list>
-
-                        <#if currentPage gte orderDTOPage.getTotalPages()>
-                            <li class = "disabled">
-                                <a href="#">下一页</a>
-                            </li>
-                        <#else>
-                            <li>
-                                <a href="/sell/seller/order/list?page=${currentPage+1}&size=${size}">下一页</a>
-                            </li>
-                        </#if>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+   <h3><strong>本月销售额：${amount}元</strong></h3>
 </div>
 
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px;margin-left: 200px"></div>
+
+<script src="/sell/js/echarts.min.js"></script>
+<script type="text/javascript">
+   // 基于准备好的dom，初始化echarts实例
+   var myChart = echarts.init(document.getElementById('main'));
+
+   // 指定图表的配置项和数据
+   var option = {
+      title: {
+         text: '商品销量'
+      },
+      tooltip: {},
+      legend: {
+         data:['销量']
+      },
+      xAxis: {
+         data:${name}
+      },
+      yAxis: {},
+      series: [{
+         name: '销量',
+         type: 'bar',
+         data: ${quantity}
+      }]
+   };
+
+   // 使用刚指定的配置项和数据显示图表。
+   myChart.setOption(option);
+</script>
 </body>
 </html>

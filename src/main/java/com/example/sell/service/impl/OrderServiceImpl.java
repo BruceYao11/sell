@@ -3,10 +3,12 @@ package com.example.sell.service.impl;
 import com.example.sell.bean.OrderDetail;
 import com.example.sell.bean.OrderMaster;
 import com.example.sell.bean.ProductInfo;
+import com.example.sell.converter.Detail2DTO;
 import com.example.sell.converter.Master2DTO;
 import com.example.sell.dao.OrderDetailDao;
 import com.example.sell.dao.OrderMasterDao;
 import com.example.sell.dto.CartDTO;
+import com.example.sell.dto.DetailDTO;
 import com.example.sell.dto.OrderDTO;
 import com.example.sell.enums.OrderStatusEnum;
 import com.example.sell.enums.PayStatusEnum;
@@ -235,4 +237,22 @@ public class OrderServiceImpl implements OrderService {
         List<OrderDTO> orderDTOList = Master2DTO.convert(orderMasterPage.getContent());
         return new PageImpl<>(orderDTOList,pageable,orderMasterPage.getTotalElements());
     }
+
+    @Override
+    public List<OrderDTO> findAll() {
+        List<OrderMaster> orderMasterList = orderMasterDao.findAll();
+        List<OrderDTO> orderDTOList = Master2DTO.convert(orderMasterList);
+        return orderDTOList;
+    }
+
+    @Override
+    public List<DetailDTO> findAllDetails() {
+        List<OrderDetail> orderDetailList = orderDetailDao.findAll();
+        List<DetailDTO> detailDTOList = Detail2DTO.convert(orderDetailList);
+        for(DetailDTO dto:detailDTOList){
+            dto.setQuantity(orderDetailDao.findQuantityByName(dto.getProductName()));
+        }
+        return detailDTOList;
+    }
+
 }
