@@ -14,7 +14,7 @@ public class LoggerTest {
     private final Logger logger = LoggerFactory.getLogger(LoggerTest.class);
 
     @Test
-    public void test01(){
+    public void test01() {
         logger.info("info...");
         logger.debug("debug...");
         logger.error("error...");

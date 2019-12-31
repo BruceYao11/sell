@@ -22,31 +22,31 @@ import static org.junit.Assert.*;
 public class ProductServiceImplTest {
 
     @Autowired
-    private ProductServiceImpl service;
+    private ProductServiceImpl productService;
 
     @Test
-    public void findOne() throws Exception{
-        ProductInfo info = service.findOne("123");
+    public void findOne() throws Exception {
+        ProductInfo info = productService.findOne("123");
         Assert.assertEquals("123",info.getProductId());
     }
 
     @Test
-        public void findUpAll() throws Exception{
-        List<ProductInfo> infos = service.findUpAll();
+        public void findUpAll() throws Exception {
+        List<ProductInfo> infos = productService.findUpAll();
         Assert.assertNotEquals(0,infos.size());
     }
 
     @Test
-    public void findAll() throws Exception{
-        PageRequest request = new PageRequest(0,2);
-        Page<ProductInfo> productInfoPage = service.findAll(request);
+    public void findAll() throws Exception {
+        PageRequest request = PageRequest.of(0,2);
+        Page<ProductInfo> productInfoPage = productService.findAll(request);
  //       System.out.println(productInfoPage.getTotalElements());
         Assert.assertNotEquals(0,productInfoPage.getTotalElements());
     }
 
     @Test
     @Transactional
-    public void save() throws Exception{
+    public void save() throws Exception {
         /*ProductInfo info = service.save(new ProductInfo("001","小米粥",new BigDecimal(2.2),100,"营养的粥","http://xxxyyx.jpg", ProductStatusEnum.UP.getCode(),3));
         Assert.assertNotNull(info);*/
     }

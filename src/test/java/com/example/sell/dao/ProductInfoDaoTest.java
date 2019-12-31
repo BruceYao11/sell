@@ -17,18 +17,18 @@ import java.util.List;
 public class ProductInfoDaoTest {
 
     @Autowired
-    private ProductInfoDao dao;
+    private ProductInfoDao productInfoDao;
 
     @Test
-    public void saveTest(){
+    public void saveTest() {
         /*ProductInfo info = new ProductInfo("123","皮蛋粥",new BigDecimal(3.2),100,"好喝的粥","http://xxxx.jpg",0,3);
         ProductInfo result = dao.save(info);
         Assert.assertNotNull(result);*/
     }
 
     @Test
-    public void findByProductStatus() throws Exception{
-        List<ProductInfo> infos = dao.findByProductStatus(0);
+    public void findByProductStatus() throws Exception {
+        List<ProductInfo> infos = productInfoDao.findByProductStatus(0);
         Assert.assertNotEquals(0,infos.size());
     }
 

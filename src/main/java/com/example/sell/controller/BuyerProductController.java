@@ -30,7 +30,7 @@ public class BuyerProductController {
     private CategoryService categoryService;
 
     @GetMapping("/list")
-    public ResultVO list(){
+    public ResultVO list() {
         //1.查询所有的上架商品
         List<ProductInfo> productInfoList = productService.findUpAll();
 
@@ -46,14 +46,14 @@ public class BuyerProductController {
 
         //3.数据拼装(重点)
         List<ProductVO> productVOList = new ArrayList<>();
-        for(ProductCategory productCategory:productCategoryList){
+        for (ProductCategory productCategory:productCategoryList) {
             ProductVO productVO = new ProductVO();
             productVO.setCategoryName(productCategory.getCategoryName());
             productVO.setCategoryType(productCategory.getCategoryType());
 
             List<ProductInfoVO> productInfoVOList = new ArrayList<>();
-            for(ProductInfo productInfo:productInfoList){
-                if(productInfo.getCategoryType().equals(productCategory.getCategoryType())){
+            for (ProductInfo productInfo:productInfoList) {
+                if (productInfo.getCategoryType().equals(productCategory.getCategoryType())) {
                     ProductInfoVO productInfoVO = new ProductInfoVO();
                     BeanUtils.copyProperties(productInfo,productInfoVO);
                     productInfoVOList.add(productInfoVO);

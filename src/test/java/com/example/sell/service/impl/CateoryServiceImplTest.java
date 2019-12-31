@@ -27,13 +27,13 @@ public class CateoryServiceImplTest {
     }
 
     @Test
-    public void findAll() throws Exception{
+    public void findAll() throws Exception {
         List<ProductCategory> productCategories = cateoryService.findAll();
         Assert.assertNotEquals(0,productCategories.size());
     }
 
     @Test
-    public void findByCategoryTypeIn() throws Exception{
+    public void findByCategoryTypeIn() throws Exception {
         List<Integer> list = new ArrayList<>();
         list.add(3);
         List<ProductCategory> productCategories = cateoryService.findByCategoryTypeIn(list);
@@ -41,7 +41,7 @@ public class CateoryServiceImplTest {
     }
 
     @Test
-    public void save() throws Exception{
+    public void save() throws Exception {
         ProductCategory p = new ProductCategory("盖浇饭",9);
         ProductCategory result = cateoryService.save(p);
         Assert.assertNotNull(result);

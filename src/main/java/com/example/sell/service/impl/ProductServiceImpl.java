@@ -38,9 +38,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void increaseStock(List<CartDTO> cartDTOList) {
-        for(CartDTO cartDTO:cartDTOList){
+        for (CartDTO cartDTO:cartDTOList) {
             ProductInfo productInfo = dao.findByProductId(cartDTO.getProductId());
-            if(productInfo == null){
+            if (productInfo == null) {
                 throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
             Integer result = productInfo.getProductStock()+cartDTO.getProductQuantity();
@@ -52,13 +52,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void decreaseStock(List<CartDTO> cartDTOList) {
-        for(CartDTO cartDTO:cartDTOList){
+        for (CartDTO cartDTO:cartDTOList) {
             ProductInfo productInfo = dao.findByProductId(cartDTO.getProductId());
-            if(productInfo == null){
+            if (productInfo == null) {
                 throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
             Integer result = productInfo.getProductStock()-cartDTO.getProductQuantity();
-            if(result < 0){
+            if (result < 0) {
                 throw new SellException(ResultEnum.PRODUCT_STOCK_ERROR);
             }
             productInfo.setProductStock(result);
@@ -74,10 +74,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductInfo onSale(String productId) {
         ProductInfo productInfo = dao.findByProductId(productId);
-        if(productInfo == null){
+        if (productInfo == null) {
             throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
         }
-        if(productInfo.getProductStatusEnum() == ProductStatusEnum.UP){
+        if (productInfo.getProductStatusEnum() == ProductStatusEnum.UP) {
             throw  new SellException(ResultEnum.PRODUCT_STATUS_ERROR);
         }
         productInfo.setProductStatus(ProductStatusEnum.UP.getCode());
@@ -87,10 +87,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductInfo offSale(String productId) {
         ProductInfo productInfo = dao.findByProductId(productId);
-        if(productInfo == null){
+        if (productInfo == null) {
             throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
         }
-        if(productInfo.getProductStatusEnum() == ProductStatusEnum.DOWN){
+        if (productInfo.getProductStatusEnum() == ProductStatusEnum.DOWN) {
             throw  new SellException(ResultEnum.PRODUCT_STATUS_ERROR);
         }
         productInfo.setProductStatus(ProductStatusEnum.DOWN.getCode());

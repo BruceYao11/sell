@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 public class WeixinController {
 
     @GetMapping("/auth")
-    public void auth(@RequestParam("code") String code){
+    public void auth(@RequestParam("code") String code) {
         log.info("code={}",code);
 
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token?"

@@ -40,9 +40,9 @@ public class SellerOrderController {
     @GetMapping("/list")
     public ModelAndView list(@RequestParam(value = "page",defaultValue = "1") Integer page,
                              @RequestParam(value = "size",defaultValue = "5") Integer size,
-                             Map<String,Object> map){
+                             Map<String,Object> map) {
         Sort sort = new Sort(Sort.Direction.DESC,"createTime");
-        PageRequest request = new PageRequest(page-1,size,sort);
+        PageRequest request = PageRequest.of(page-1,size,sort);
         Page<OrderDTO> orderDTOPage = orderService.findList(request);
         map.put("orderDTOPage",orderDTOPage);
         map.put("currentPage",page);
@@ -57,11 +57,11 @@ public class SellerOrderController {
      */
     @GetMapping("/cancel")
     public ModelAndView cancel(@RequestParam("orderId") String orderId,
-                               Map<String,Object> map){
-        try{
+                               Map<String,Object> map) {
+        try {
             OrderDTO orderDTO = orderService.findOne(orderId);
             orderService.cancel(orderDTO);
-        }catch(SellException e){
+        } catch(SellException e) {
             log.error("[卖家端取消订单] 发生异常{}",e);
             map.put("msg", e.getMessage());
             map.put("url","/sell/seller/order/list");
@@ -80,11 +80,11 @@ public class SellerOrderController {
      */
     @GetMapping("/detail")
     public ModelAndView detail(@RequestParam("orderId") String orderId,
-                               Map<String,Object> map){
+                               Map<String,Object> map) {
         OrderDTO orderDTO = new OrderDTO();
-        try{
+        try {
             orderDTO = orderService.findOne(orderId);
-        }catch(SellException e){
+        } catch(SellException e) {
             log.error("[卖家端查询订单详情] 发生异常{}",e);
             map.put("msg", e.getMessage());
             map.put("url","/sell/seller/order/list");
@@ -96,11 +96,11 @@ public class SellerOrderController {
 
     @GetMapping("finish")
     public ModelAndView finish(@RequestParam("orderId") String orderId,
-                               Map<String,Object> map){
+                               Map<String,Object> map) {
         try{
             OrderDTO orderDTO = orderService.findOne(orderId);
             orderService.finish(orderDTO);
-        }catch(SellException e){
+        }catch(SellException e) {
             log.error("[卖家端完结订单] 发生异常{}",e);
             map.put("msg",e.getMessage());
             map.put("url","/sell/seller/order/list");

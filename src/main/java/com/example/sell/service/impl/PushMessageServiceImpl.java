@@ -46,7 +46,7 @@ public class PushMessageServiceImpl implements PushMessageService {
         templateMessage.setData(data);
         try {
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
-        }catch (WxErrorException e) {
+        } catch (WxErrorException e) {
             log.error("【微信模版消息】发送失败, {}", e);
         }
     }

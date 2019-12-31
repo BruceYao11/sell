@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
  * @create: 2019-04-28 23:24
  **/
 public class Detail2DTO {
-    public static DetailDTO convert(OrderDetail orderDetail){
+    public static DetailDTO convert(OrderDetail orderDetail) {
 
         DetailDTO detailDTO = new DetailDTO();
         BeanUtils.copyProperties(orderDetail,detailDTO);
         return detailDTO;
     }
 
-    public static List<DetailDTO> convert(List<OrderDetail> orderDetailList){
+    public static List<DetailDTO> convert(List<OrderDetail> orderDetailList) {
         return orderDetailList.stream().map(e ->
                 convert(e)
         ).collect(Collectors.toList());

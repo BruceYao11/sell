@@ -1,6 +1,5 @@
 package com.example.sell.controller;
 
-import com.example.sell.bean.OrderDetail;
 import com.example.sell.dto.DetailDTO;
 import com.example.sell.dto.OrderDTO;
 import com.example.sell.service.OrderService;
@@ -29,7 +28,7 @@ public class TotalController {
     private OrderService orderService;
 
     @GetMapping("/total")
-    public ModelAndView list(Map<String,Object> map){
+    public ModelAndView list(Map<String,Object> map) {
         List<OrderDTO> orderDTOList = orderService.findAll();
         BigDecimal amount = new BigDecimal("0");
         for (OrderDTO o : orderDTOList) {

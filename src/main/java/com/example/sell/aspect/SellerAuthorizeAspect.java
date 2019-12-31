@@ -34,26 +34,25 @@ public class SellerAuthorizeAspect {
 
     @Pointcut("execution(public * com.example.sell.controller.Seller*.*(..))"+
     "&& !execution(public * com.example.sell.controller.SellerUserController.*(..))")
-    public void verify(){}
+    public void verify() {}
 
     @Before("verify()")
-    public void doVerify(){
+    public void doVerify() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
         //查询cookie
         Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
-        if(cookie == null){
+        if (cookie == null) {
             log.warn("[登录校验] cookie中查询不到token");
             throw new SellerAuthorizeException();
         }
 
         //去redis中查询
         String tokenValue = redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()));
-        if(StringUtils.isEmpty(tokenValue)){
+        if (StringUtils.isEmpty(tokenValue)) {
             log.warn("[登录校验] redis中查询不到数据");
             throw new SellerAuthorizeException();
         }
     }
-
 }

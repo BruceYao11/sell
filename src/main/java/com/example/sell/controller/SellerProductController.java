@@ -51,8 +51,8 @@ public class SellerProductController {
     @GetMapping("/list")
     public ModelAndView list(@RequestParam(value="page",defaultValue = "1") Integer page,
                              @RequestParam(value="size",defaultValue ="5") Integer size,
-                             Map<String,Object> map){
-        PageRequest request = new PageRequest(page-1,size);
+                             Map<String,Object> map) {
+        PageRequest request = PageRequest.of(page-1,size);
         Page<ProductInfo> productInfoPage = productService.findAll(request);
         map.put("productInfoPage",productInfoPage);
         map.put("currentPage",page);
@@ -68,10 +68,10 @@ public class SellerProductController {
      */
     @GetMapping("/on_sale")
     public ModelAndView onSale(@RequestParam("productId") String productId,
-                               Map<String,Object> map){
-        try{
+                               Map<String,Object> map) {
+        try {
             productService.onSale(productId);
-        }catch (SellException e){
+        } catch (SellException e) {
             map.put("msg",e.getMessage());
             map.put("url","/sell/seller/product/list");
             return new ModelAndView("common/error",map);
@@ -88,10 +88,10 @@ public class SellerProductController {
      */
     @GetMapping("/off_sale")
     public ModelAndView offSale(@RequestParam("productId") String productId,
-                               Map<String,Object> map){
-        try{
+                               Map<String,Object> map) {
+        try {
             productService.offSale(productId);
-        }catch (SellException e){
+        } catch (SellException e) {
             map.put("msg",e.getMessage());
             map.put("url","/sell/seller/product/list");
             return new ModelAndView("common/error",map);
@@ -108,8 +108,8 @@ public class SellerProductController {
      */
     @GetMapping("/update")
     public ModelAndView update(@RequestParam(value="productId",required = false) String productId,
-                              Map<String,Object> map){
-        if(!StringUtils.isEmpty(productId)){
+                              Map<String,Object> map) {
+        if(!StringUtils.isEmpty(productId)) {
             ProductInfo productInfo = productService.findOne(productId);
             map.put("productInfo",productInfo);
         }
@@ -130,8 +130,8 @@ public class SellerProductController {
     @PostMapping("/save")
     public ModelAndView save(@Valid ProductForm form,
                              BindingResult bindingResult,
-                             Map<String,Object> map){
-        if(bindingResult.hasErrors()){
+                             Map<String,Object> map) {
+        if (bindingResult.hasErrors()) {
             map.put("msg", bindingResult.getFieldError().getDefaultMessage());
             map.put("url","/sell/seller/product/list");
             return new ModelAndView("common/error",map);
@@ -140,14 +140,14 @@ public class SellerProductController {
         ProductInfo productInfo = new ProductInfo();
         try{
             //如果productId为空，说明是新增
-            if(!StringUtils.isEmpty(form.getProductId())){
+            if (!StringUtils.isEmpty(form.getProductId())) {
                  productInfo = productService.findOne(form.getProductId());
-            }else{
+            } else {
                 form.setProductId(KeyUtil.getUniqueKey());
             }
             BeanUtils.copyProperties(form,productInfo);
             productService.save(productInfo);
-        }catch(SellException e){
+        } catch(SellException e) {
             map.put("msg", e.getMessage());
             map.put("url","/sell/seller/product/list");
             return new ModelAndView("common/error",map);

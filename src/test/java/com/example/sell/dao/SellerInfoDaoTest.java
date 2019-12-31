@@ -19,7 +19,7 @@ public class SellerInfoDaoTest {
     private SellerInfoDao sellerInfoDao;
 
     @Test
-    public void save(){
+    public void save() {
         SellerInfo sellerInfo = new SellerInfo();
         sellerInfo.setSellerId(KeyUtil.getUniqueKey());
         sellerInfo.setSellerName("admin");
@@ -31,9 +31,8 @@ public class SellerInfoDaoTest {
     }
 
     @Test
-    public void findByOpenid(){
+    public void findByOpenid() {
         SellerInfo sellerInfo = sellerInfoDao.findByOpenid("abc");
         Assert.assertEquals("abc",sellerInfo.getOpenid());
-
     }
 }

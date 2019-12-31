@@ -48,15 +48,15 @@ public class BuyerOrderController {
      */
     @PostMapping("/create")
     public ResultVO<Map<String,String>> create(@Valid OrderForm orderForm,
-                                               BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+                                               BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             log.error("[创建订单] 参数不正确，oderForm={}",orderForm);
             throw new SellException(ResultEnum.PARAM_ERROR.getCode(),
                     bindingResult.getFieldError().getDefaultMessage());
         }
 
         OrderDTO orderDTO = Form2DTO.convert(orderForm);
-        if(CollectionUtils.isEmpty(orderDTO.getOrderDetailList())){
+        if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
             log.error("[创建订单] 购物车不能为空");
             throw new SellException(ResultEnum.CART_EMPTY);
         }
@@ -79,13 +79,13 @@ public class BuyerOrderController {
     @GetMapping("/list")
     public ResultVO<List<OrderDTO>> list(@RequestParam("openid") String openid,
                                          @RequestParam(value = "page",defaultValue = "0") Integer page,
-                                         @RequestParam(value = "size",defaultValue = "10") Integer size){
-        if(StringUtils.isEmpty(openid)){
+                                         @RequestParam(value = "size",defaultValue = "10") Integer size) {
+        if (StringUtils.isEmpty(openid)) {
             log.error("[查询订单列表] openid为空");
             throw new SellException(ResultEnum.PARAM_ERROR);
         }
 
-        PageRequest pageRequest = new PageRequest(page,size);
+        PageRequest pageRequest = PageRequest.of(page,size);
         Page<OrderDTO> orderDTOPage = orderService.findList(openid,pageRequest);
 
         return ResultVOUtil.success(orderDTOPage.getContent());
@@ -99,7 +99,7 @@ public class BuyerOrderController {
      */
     @GetMapping("/detail")
     public ResultVO<OrderDTO> detail(@RequestParam("orderId") String orderId,
-                                     @RequestParam("openid") String openid){
+                                     @RequestParam("openid") String openid) {
         OrderDTO orderDTO = buyerService.findOrderOne(orderId,openid);
         return ResultVOUtil.success(orderDTO);
     }

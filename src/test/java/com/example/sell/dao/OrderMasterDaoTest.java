@@ -19,26 +19,23 @@ import static org.junit.Assert.*;
 public class OrderMasterDaoTest {
 
     @Autowired
-    private OrderMasterDao dao;
-
+    private OrderMasterDao orderMasterDao;
     private final String OPENID = "110110";
 
     @Test
-    public void saveTest(){
+    public void saveTest() {
         OrderMaster orderMaster = new OrderMaster();
         orderMaster.setOrderId("1231223");
         orderMaster.setBuyerOpenid(OPENID);
         orderMaster.setOrderAmount(new BigDecimal(3.4));
-
-        OrderMaster result =dao.save(orderMaster);
+        OrderMaster result = orderMasterDao.save(orderMaster);
         Assert.assertNotNull(result);
     }
 
     @Test
-    public void findByBuyerOpenid(){
-        PageRequest request = new PageRequest(0,3);
-
-        Page<OrderMaster> result = dao.findByBuyerOpenid(OPENID,request);
+    public void findByBuyerOpenid() {
+        PageRequest request = PageRequest.of(0,3);
+        Page<OrderMaster> result = orderMasterDao.findByBuyerOpenid(OPENID,request);
         Assert.assertNotEquals(0,result.getTotalElements());
         System.out.println(result.getTotalElements());
     }

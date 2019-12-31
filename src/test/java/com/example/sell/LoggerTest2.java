@@ -13,11 +13,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class LoggerTest2 {
 
     @Test
-    public void test01(){
+    public void test01() {
         String name = "imooc";
         String password = "123456";
         log.debug("debug...");
-        log.info("name:{},password:{}",name,password);//{}作为占位符
+        //{}作为占位符
+        log.info("name:{},password:{}",name,password);
         log.error("error...");
     }
 }

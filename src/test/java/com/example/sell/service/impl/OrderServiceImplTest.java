@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
 public class OrderServiceImplTest {
 
     private String OPENID = "1101101";
-
     private String ORDERID = "1552012887210218905";
 
     @Autowired
@@ -36,20 +35,16 @@ public class OrderServiceImplTest {
     public void create() {
         OrderDTO dto = new OrderDTO();
         dto.setBuyerOpenid(OPENID);
-
         //购物车
         List<OrderDetail> orderDetailList = new ArrayList<>();
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setProductQuantity(1);
         orderDetail.setProductId("001");
-
         OrderDetail orderDetail2 = new OrderDetail();
         orderDetail2.setProductQuantity(1);
         orderDetail2.setProductId("123");
-
         orderDetailList.add(orderDetail);
         orderDetailList.add(orderDetail2);
-
         dto.setOrderDetailList(orderDetailList);
         dto = orderService.create(dto);
         log.info("[创建订单] result={}",dto);
@@ -65,7 +60,7 @@ public class OrderServiceImplTest {
 
     @Test
     public void findList() {
-        PageRequest request = new PageRequest(0,2);
+        PageRequest request = PageRequest.of(0,2);
         Page<OrderDTO>  orderDTOPage = orderService.findList(OPENID,request);
         Assert.assertNotEquals(0,orderDTOPage.getTotalElements());
     }
@@ -82,7 +77,6 @@ public class OrderServiceImplTest {
         OrderDTO dto = orderService.findOne(ORDERID);
         OrderDTO result = orderService.finish(dto);
         Assert.assertEquals(OrderStatusEnum.FINISHED.getCode(),result.getOrderStatus());
-
     }
 
     @Test
@@ -94,7 +88,7 @@ public class OrderServiceImplTest {
 
     @Test
     public void list() {
-        PageRequest request = new PageRequest(0,2);
+        PageRequest request = PageRequest.of(0,2);
         Page<OrderDTO>  orderDTOPage = orderService.findList(request);
         Assert.assertNotEquals(0,orderDTOPage.getTotalElements());
     }

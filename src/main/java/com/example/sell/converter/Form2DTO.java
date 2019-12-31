@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 public class Form2DTO {
 
-    public static OrderDTO convert(OrderForm orderForm){
+    public static OrderDTO convert(OrderForm orderForm) {
         Gson gson = new Gson();
 
         OrderDTO orderDTO = new OrderDTO();
@@ -31,10 +31,10 @@ public class Form2DTO {
         orderDTO.setBuyerAddress(orderForm.getAddress());
 
         List<OrderDetail> orderDetailList = new ArrayList<>();
-        try{
+        try {
              orderDetailList = gson.fromJson(orderForm.getItems(),
                     new TypeToken<List<OrderDetail>>(){}.getType());
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("[对象转换] 错误，string={}",orderForm.getItems());
             throw new SellException(ResultEnum.PARAM_ERROR);
         }

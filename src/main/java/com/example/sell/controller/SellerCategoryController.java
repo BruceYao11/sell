@@ -37,7 +37,7 @@ public class SellerCategoryController {
      * @return
      */
     @GetMapping("/list")
-    public ModelAndView list(Map<String,Object> map){
+    public ModelAndView list(Map<String,Object> map) {
         List<ProductCategory> categoryList = categoryService.findAll();
         map.put("categoryList",categoryList);
         return new ModelAndView("category/list",map);
@@ -51,7 +51,7 @@ public class SellerCategoryController {
      */
     @GetMapping("/update")
     public ModelAndView update(@RequestParam(value = "categoryId",required = false) Integer categoryId,
-                               Map<String,Object> map){
+                               Map<String,Object> map) {
         if(categoryId != null){
             ProductCategory category = categoryService.findOne(categoryId);
             map.put("category",category);
@@ -70,19 +70,19 @@ public class SellerCategoryController {
     public ModelAndView save(@Valid CategoryForm form,
                              BindingResult bindingResult,
                              Map<String,Object> map){
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             map.put("msg",bindingResult.getFieldError().getDefaultMessage());
             map.put("url","/sell/seller/category/list");
             return new ModelAndView("common/error",map);
         }
         ProductCategory category = new ProductCategory();
         try{
-            if(form.getCategoryId() != null){
+            if (form.getCategoryId() != null) {
                 category = categoryService.findOne(form.getCategoryId());
             }
             BeanUtils.copyProperties(form,category);
             categoryService.save(category);
-        }catch(SellException e){
+        } catch(SellException e) {
             map.put("msg",e.getMessage());
             map.put("url","/sell/seller/category/list");
             return new ModelAndView("common/error",map);

@@ -41,7 +41,7 @@ public class CookieUtil {
         Map<String, Cookie> cookieMap = readCookieMap(request);
         if (cookieMap.containsKey(name)) {
             return cookieMap.get(name);
-        }else {
+        } else {
             return null;
         }
     }

@@ -71,9 +71,9 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal orderAmount = new BigDecimal(0);
 
         //1.查询商品（数量，价格）
-        for(OrderDetail orderDetail:orderDTO.getOrderDetailList()){
+        for (OrderDetail orderDetail:orderDTO.getOrderDetailList()) {
             ProductInfo productInfo = productService.findOne(orderDetail.getProductId());
-            if(productInfo == null){
+            if (productInfo == null) {
                 throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
 
@@ -116,11 +116,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO findOne(String orderId) {
         OrderMaster orderMaster = orderMasterDao.findByOrderId(orderId);
-        if(orderMaster == null){
+        if (orderMaster == null) {
             throw new SellException(ResultEnum.ORDER_NOT_EXIST);
         }
         List<OrderDetail> orderDetailList = orderDetailDao.findByOrderId(orderId);
-        if(CollectionUtils.isEmpty(orderDetailList)){
+        if (CollectionUtils.isEmpty(orderDetailList)) {
             throw new SellException(ResultEnum.ORDER_DETAIL_NOT_EXIST);
         }
 
@@ -144,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
         OrderMaster orderMaster = new OrderMaster();
 
         //判断订单状态
-        if(!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())){
+        if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
             log.error("[取消订单] 订单状态不正确,orderId={},orderStatus={}",orderDTO.getOrderId(),orderDTO.getOrderStatus());
             throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
         }
@@ -153,13 +153,13 @@ public class OrderServiceImpl implements OrderService {
         orderDTO.setOrderStatus(OrderStatusEnum.CANCEL.getCode());
         BeanUtils.copyProperties(orderDTO,orderMaster);
         OrderMaster update = orderMasterDao.save(orderMaster);
-        if(update == null){
+        if (update == null) {
             log.error("[取消订单] 更新失败，orderMaster={}",orderMaster);
             throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
         }
 
         //返回库存
-        if(CollectionUtils.isEmpty(orderDTO.getOrderDetailList())){
+        if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
             log.error("[取消订单] 订单中详情为空,orderDTO={}",orderDTO);
             throw new SellException(ResultEnum.ORDER_DETAIL_EMPTY);
         }
@@ -170,7 +170,7 @@ public class OrderServiceImpl implements OrderService {
         productService.increaseStock(cartDTOList);
 
         //如果已支付，需要退款
-        if(orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())){
+        if (orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
             //TODO
         }
         return orderDTO;
@@ -194,7 +194,7 @@ public class OrderServiceImpl implements OrderService {
         OrderMaster  orderMaster = new OrderMaster();
         BeanUtils.copyProperties(orderDTO,orderMaster);
         OrderMaster reuslt = orderMasterDao.save(orderMaster);
-        if(reuslt == null){
+        if (reuslt == null) {
             log.error("[完结订单] 更新失败，orderMaster={}",orderMaster);
             throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
         }
@@ -224,7 +224,7 @@ public class OrderServiceImpl implements OrderService {
         OrderMaster orderMaster = new OrderMaster();
         BeanUtils.copyProperties(orderDTO,orderMaster);
         OrderMaster result = orderMasterDao.save(orderMaster);
-        if(result == null){
+        if (result == null) {
             log.error("[订单支付成功]更新失败，orderMaster={}",orderMaster);
             throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
         }
@@ -249,7 +249,7 @@ public class OrderServiceImpl implements OrderService {
     public List<DetailDTO> findAllDetails() {
         List<OrderDetail> orderDetailList = orderDetailDao.findAll();
         List<DetailDTO> detailDTOList = Detail2DTO.convert(orderDetailList);
-        for(DetailDTO dto:detailDTOList){
+        for (DetailDTO dto:detailDTOList) {
             dto.setQuantity(orderDetailDao.findQuantityByName(dto.getProductName()));
         }
         return detailDTOList;
