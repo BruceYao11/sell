@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @program: sell
@@ -30,19 +31,16 @@ public class TotalController {
     @GetMapping("/total")
     public ModelAndView list(Map<String,Object> map) {
         List<OrderDTO> orderDTOList = orderService.findAll();
-        BigDecimal amount = new BigDecimal("0");
-        for (OrderDTO o : orderDTOList) {
-            amount = amount.add(o.getOrderAmount());
-        }
+        BigDecimal amount = orderDTOList
+                .stream()
+                .map(OrderDTO::getOrderAmount)
+                .reduce(BigDecimal::add)
+                .get();
         map.put("amount",amount);
 
         List<DetailDTO> detailDTOList = orderService.findAllDetails();
-        List<String> name = new ArrayList<>();
-        List<Integer> quantity = new ArrayList<>();
-        for(DetailDTO o:detailDTOList){
-            name.add(o.getProductName());
-            quantity.add(o.getQuantity());
-        }
+        List<String> name = detailDTOList.stream().map(dto -> dto.getProductName()).collect(Collectors.toList());
+        List<Integer> quantity = detailDTOList.stream().map(dto -> dto.getQuantity()).collect(Collectors.toList());
         map.put("name", JsonUtil.toJson(name));
         map.put("quantity",JsonUtil.toJson(quantity));
 

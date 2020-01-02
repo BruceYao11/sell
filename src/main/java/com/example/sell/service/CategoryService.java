@@ -12,6 +12,6 @@ public interface CategoryService {
 
     List<ProductCategory> findByCategoryTypeIn(List<Integer> categoryTypeList);
 
-    //新增修改都是用的save方法
+    // 新增修改都是用的save方法
     ProductCategory save(ProductCategory productCategory);
 }

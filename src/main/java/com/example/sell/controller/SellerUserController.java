@@ -52,7 +52,7 @@ public class SellerUserController {
                               HttpServletResponse response,
                               Map<String, Object> map) {
 
-        //1. openid去和数据库里的数据匹配
+        // 1. openid去和数据库里的数据匹配
         SellerInfo sellerInfo = sellerService.findSellerInfoByOpenid(openid);
         if (sellerInfo == null) {
             map.put("msg", ResultEnum.LOGIN_FAIL.getMsg());
@@ -60,13 +60,13 @@ public class SellerUserController {
             return new ModelAndView("common/error");
         }
 
-        //2. 设置token至redis
+        // 2. 设置token至redis
         String token = UUID.randomUUID().toString();
         Integer expire = RedisConstant.EXPIRE;
 
         redisTemplate.opsForValue().set(String.format(RedisConstant.TOKEN_PREFIX, token), openid, expire, TimeUnit.SECONDS);
 
-        //3. 设置token至cookie
+        // 3. 设置token至cookie
         CookieUtil.set(response, CookieConstant.TOKEN, token, expire);
 
         return new ModelAndView("redirect:" + projectUrlConfig.getSell() + "/sell/seller/order/list");
@@ -83,13 +83,13 @@ public class SellerUserController {
     public ModelAndView logout(HttpServletRequest request,
                        HttpServletResponse response,
                        Map<String, Object> map) {
-        //1. 从cookie里查询
+        // 1. 从cookie里查询
         Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
         if (cookie != null) {
-            //2. 清除redis
+            // 2. 清除redis
             redisTemplate.opsForValue().getOperations().delete(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue()));
 
-            //3. 清除cookie
+            // 3. 清除cookie
             CookieUtil.set(response, CookieConstant.TOKEN, null, 0);
         }
 

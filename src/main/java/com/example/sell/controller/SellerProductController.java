@@ -113,7 +113,7 @@ public class SellerProductController {
             ProductInfo productInfo = productService.findOne(productId);
             map.put("productInfo",productInfo);
         }
-        //查询所有类目信息
+        // 查询所有类目信息
         List<ProductCategory> categoryList = categoryService.findAll();
         map.put("categoryList",categoryList);
 
@@ -139,7 +139,7 @@ public class SellerProductController {
 
         ProductInfo productInfo = new ProductInfo();
         try{
-            //如果productId为空，说明是新增
+            // 如果productId为空，说明是新增
             if (!StringUtils.isEmpty(form.getProductId())) {
                  productInfo = productService.findOne(form.getProductId());
             } else {

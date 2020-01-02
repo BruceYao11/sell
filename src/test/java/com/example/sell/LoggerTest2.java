@@ -17,7 +17,7 @@ public class LoggerTest2 {
         String name = "imooc";
         String password = "123456";
         log.debug("debug...");
-        //{}作为占位符
+        // {}作为占位符
         log.info("name:{},password:{}",name,password);
         log.error("error...");
     }

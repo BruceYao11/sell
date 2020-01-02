@@ -21,7 +21,7 @@ public class WebSocket {
 
     private Session session;
 
-    //定义一个websocket的容器，储存session
+    // 定义一个websocket的容器，储存session
     private static CopyOnWriteArraySet<WebSocket> webSocketSet = new CopyOnWriteArraySet<>();
 
     @OnOpen

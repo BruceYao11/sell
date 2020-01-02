@@ -9,5 +9,6 @@ public interface RedisConstant {
 
     String TOKEN_PREFIX = "token_%s";
 
-    Integer EXPIRE = 7200; //过期时间，2小时
+    // 过期时间，2小时
+    Integer EXPIRE = 7200;
 }

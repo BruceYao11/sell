@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @program: sell
- * @description: 普通登录
+ * @description: 普通登录（账号密码）
  * @author: Bruce
  * @create: 2019-04-07 12:32
  **/
@@ -59,13 +59,13 @@ public class LoginController {
             map.put("url", "/sell/seller/order/list");
             return new ModelAndView("common/error");
         }
-        //2. 设置token至redis
+        // 2. 设置token至redis
         String token = UUID.randomUUID().toString();
         Integer expire = RedisConstant.EXPIRE;
 
         redisTemplate.opsForValue().set(String.format(RedisConstant.TOKEN_PREFIX, token), sellerId, expire, TimeUnit.SECONDS);
 
-        //3. 设置token至cookie
+        // 3. 设置token至cookie
         CookieUtil.set(response, CookieConstant.TOKEN, token, expire);
         return new ModelAndView("redirect:" + projectUrlConfig.getSell() + "/sell/seller/order/list");
     }
